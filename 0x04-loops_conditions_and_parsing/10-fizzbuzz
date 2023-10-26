@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#Bash script that displays numbers from 1 to 100.
+for m in {1..100}
+do
+	if [ $(( m % 5 )) -eq 0 ] && [ $(( m % 3 )) -eq 0 ]
+	then
+		echo "FizzBuzz"
+	elif [ $(( m % 5 )) -eq 0 ]
+	then
+		echo "Buzz"
+	elif [ $(( m % 3 )) -eq 0 ]
+	then
+		echo "Fizz"
+	else
+		echo "$m"
+	fi
+done
