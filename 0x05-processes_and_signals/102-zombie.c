@@ -22,14 +22,19 @@ int infinite_while(void)
 int main(void)
 {
 	int m;
-	pid_t zombie;
+	pid_t my_zombie;
 
-	for (m = 0; m < 5; m++)
-	{zombie = fork()
-		if (!zombie)
-			return (0);
-		printf("Zombie process created, PID: %d\n", zombie);
+	while (m < 5)
+	{
+		my_zombie = fork();
+		if (my_zombie > 0)
+		{
+			printf("Zombie process created, PID: %d\n", my_zombie);
+			sleep(1);
+			m++;
+		}
+		else
+			exit(0)
 	}
 	infinite_while();
-	return (0);
-}
+} return ()EXIT_SUCCESS;
