@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#Executing the 100-process_and_pid_file script and killing it with ctrl+c
+sudo touch /var/run/myscript.pid
+sudo bash -c "echo $$ > /var/run/myscript.pid"
+while true
+do
+echo "To infinity and beyond"
+sleep 2
+trap 'echo "I hate the kill command"; sudo rm /var/run/myscript.pid; exit' SIGTERM
+trap 'echo "Y U no love me?!"' SIGiNT
+trap "sudo rm /var/run/myscript.pid; exit" SIGQUIT
+done
