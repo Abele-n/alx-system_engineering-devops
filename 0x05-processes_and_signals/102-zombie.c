@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 /**
  * infinite_while - produces an infinite loop
@@ -8,7 +10,7 @@
  */
 int infinite_while(void)
 {
-	while 0(1)
+	while (1)
 	{
 		sleep(1);
 	}
@@ -34,7 +36,7 @@ int main(void)
 			m++;
 		}
 		else
-			exit(0)
+			exit(0);
 	}
 	infinite_while();
 } return ()EXIT_SUCCESS;
