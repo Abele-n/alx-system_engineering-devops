@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#create a new process instead of saying that it is already started
+m=0
+while [ $m ]
+do
+echo 'I am alive!' >> /tmp/my_process
+sleep 2
+done
