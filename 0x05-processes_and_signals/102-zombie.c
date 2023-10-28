@@ -39,4 +39,5 @@ int main(void)
 			exit(0);
 	}
 	infinite_while();
-} return ()EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
+}
