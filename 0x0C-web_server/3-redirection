@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#redirecting to another page
+apt-get update
+apt-get install -y nginx
+echo "Hello World!" > /etc/nginx/html/index.html
+echo "server {
+listen 80;
+listen [::]:80 default_server;
+root /etc/nginx/html;
+index index.html
+location /redirect_me{
+return 301
+}
+}" > /etc/sites-available/default
+service nginx restart
