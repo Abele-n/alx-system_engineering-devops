@@ -7,15 +7,7 @@ import requests
 
 
 def recurse(subreddit, hot_list=[], after="", count=0):
-    """
-    return titles lists containing hot postings on a given subreddit
-
-    :param subreddit: name to the subreddit query
-    :param hot_list: (optional)hot title lists of articles
-    :param after: (optional) pagination token for the nextpage article
-    :param count: (optional) count of retrieved articles
-    return: A list of titles for hot articles for the subreddit
-    """
+    """return titles lists containing hot postings on a given subreddit."""
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
             "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
