@@ -12,14 +12,14 @@ def recurse(subreddit, hot_list=[], after="", count=0):
     """
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
-            "User-agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+            "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
             }
-    paramts = {
+    params = {
             'after': after,
             'count': count,
             'limit': 100
             }
-    resp = requests.get(url, headers=headers, paramts=paramts, \n
+    resp = requests.get(url, headers=headers, params=params, \n
                         allow_redirects=False)
     if resp.status_code == 404:
         return None
