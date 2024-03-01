@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 #installing nginx web server
-apt-get update
-apt-get -y install nginx
-echo "server {
-listen 80;
-server_name _;
-location / {
-echo 'Hello World!';
-}
-}" > /etc/sites-available/default
+sudo apt-get update -y qq && \
+    sudo apt-get install nginx -y
+
+sudo service nginx start
+sudo ufw allow 'Nginx HTTP'
+
+sudo chown -R "$USER":"USER" /var/www/html
+sudo chmod -R /var/www
+
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
 service nginx restart
