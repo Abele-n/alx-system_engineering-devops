@@ -11,6 +11,6 @@ sudo chmod -R 755 /var/www/html
 
 sudo cp /var/www/html/index.nginx-debian.html "/var/www/html/index.nginx-debian-$(date +"%Y-%m-%d_%H-%M-%S").html.bckp"
 
-echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+echo "<!DOCTYPE html><html><body>Hello World!</body></html>" | sudo tee /var/www/html/index.nginx-debian.html > /dev/null
 
 sudo service nginx restart
