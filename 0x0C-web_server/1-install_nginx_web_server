@@ -9,7 +9,7 @@ sudo ufw allow 'Nginx HTTP'
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www/html
 
-cp /var/www/html/index.nginx-debian.html "/var/www/html/index.nginx-debian-$(date +"%Y-%m-%d_%H-%M-%S").html.bckp"
+sudo cp /var/www/html/index.nginx-debian.html "/var/www/html/index.nginx-debian-$(date +"%Y-%m-%d_%H-%M-%S").html.bckp"
 
 echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
