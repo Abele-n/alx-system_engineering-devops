@@ -1,7 +1,28 @@
 #!/usr/bin/env bash
 #Install and configure HAproxy on your lb-01 server
-apt-get -y update
-apt-get -y install haproxy
-apt-get -y install nginx                                               echo "Hello World!" > /var/www/html/index.nginx-debian.html            echo "This is not a page" > /usr/share/nginx/html/custom_404.html      sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/Abele_n permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/" /etc/nginx/sites-available/default
-sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOSTNAME\";/" /etc/nginx/nginx.conf
-service nginx start
+apt-get update
+apt-get install -y nginx
+
+# hostname of the server
+hostname=$(hostname)
+
+# Configuring Nginx to add custom HTTP response header
+cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Served-By $hostname; # Custom header addition
+        proxy_set_header Host \$http_host;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+}
+EOF
+
+systemctl restart nginx
