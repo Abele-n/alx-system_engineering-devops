@@ -2,18 +2,17 @@
 # Configure your domain zone so that the subdomain www points
 # to your load-balancer IP
 
-domain_information() {
-    line=$(dig "$2.$1" +short | tr '\n' ' ')
-    echo "$line" | grep 'ANSWER SECTION' >/dev/null && echo "$line" | awk '{print "The subdomain " $1 " is a " $4 " record and points to " $5}'
+domain_information ()
+{
+    domain="$1"
+    subdomain="$2"
+    dig "$subdomain.$domain | awk '/ANSWER SECTION:/{getline; printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$subdomain"
 }
 
-if [ "$#" == 1 ]
-then 
-    domain_information "$1" "www"
-    domain_information "$1" "lb-01"
-    domain_information "$1" "web-01"
-    domain_information "$1" "web-02"
-elif [ "$#" == 2 ]
-then
-    domain_information "$1" "$2"
-fi
+for subdomain in "www" "web-01" "web-02"
+do
+    if [ -z "$2" ] || [ "$2" == "$subdomain" ];
+    then
+        domain_information "$1" "$subdomain" ]
+    fi
+done
