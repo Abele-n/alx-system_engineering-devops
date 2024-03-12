@@ -1,6 +1,8 @@
 global
   log /dev/log local0
+  log /dev/log local1 notice
   maxconn 2048
+  daemon
   user haproxy
   group haproxy
   tune.ssl.default-dh-param 2048
@@ -19,7 +21,7 @@ defaults
   option http-server-close
 
 frontend www-http
-  bind 0.0.0.0:80
+  bind *:80
   reqadd X-Forwarded-Proto:\ http
   default_backend www-backend
 frontend www-https
@@ -34,4 +36,4 @@ backend www-backend
   server 426700-web-01 54.84.12.117:80 check
   server 426700-web-02 54.160.121.212:80 check
 backend letsencrypt-backend
-  server letsencrypt 127.0.0.1:54321
+  server letsencrypt 127.0.0.1:8888
