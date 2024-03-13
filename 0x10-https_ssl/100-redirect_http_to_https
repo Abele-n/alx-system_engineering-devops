@@ -1,42 +1,47 @@
-# Configure HAproxy to automatically redirect HTTP traffic to HTTPS.
 global
-  log /dev/log local0
-  maxconn 2048
-  user haproxy
-  group haproxy
-  tune.ssl.default-dh-param 2048
+    log /dev/log local0
+    log 127.0.0.1   local1 notice
+    user haproxy
+    group haproxy
+    tune.ssl.default-dh-param 2048
+    debug
 
 defaults
-  log global
-  mode http
-  option httplog
-  option dontlognull
-  retries 3
-  option redispatch
-  timeout connect 5000
-  timeout client 10000
-  timeout server 10000
-  option forwardfor
-  option http-server-close
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    retries 3
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
+    option forwardfor
+    option http-server-close
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
 
-frontend www-http
-  bind 0.0.0.0:80
-  reqadd X-Forwarded-Proto:\ http
-  default_backend www-backend
-  redirect scheme https code 301 if !{ ssl_fc }
+frontend http_front
+    bind *:80
+    redirect scheme https code 301 if !{ ssl_fc }
 
-frontend www-https
-  bind 0.0.0.0:443 ssl crt /etc/haproxy/certs/www.bdbnb.site.pem
-  reqadd X-Forwarded-Proto:\ https
-  acl letsencrypt-acl path_beg /.well-known/acme-challenge/
-  use_backend letsencrypt-backend if letsencrypt-acl
-  default_backend www-backend
+frontend https_front
+    bind *:443 ssl crt /etc/letsencrypt/live/www.abelnaf.tech/www.abelnaf.tech.pem
+    mode http
+    option httplog
+    option forwardfor
+    http-request add-header X-Forwarded-Proto https
+    default_backend http_back
 
-backend www-backend
-  balance roundrobin
-  redirect scheme https if !{ ssl_fc }
-  server 426700-web-01 54.84.12.117:80 check
-  server 426700-web-02 54.160.121.212:80 check
+backend http_back
+    mode http
+    balance roundrobin
+    server 426700-web-01 54.84.12.117:80 check
+    server 426700-web-02 54.160.121.212:80 check
 
 backend letsencrypt-backend
-  server letsencrypt 127.0.0.1:54321
+    server letsencript 127.0.0.1:54321 check
