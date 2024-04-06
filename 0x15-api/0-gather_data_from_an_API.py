@@ -6,13 +6,10 @@ returns information about his/her TODO list progress
 import requests
 import sys
 
-def truncate_name(name):
-    return name[:18]
-
 if __name__ == '__main__':
     url = "https://jsonplaceholder.typicode.com/"
-    user = requests.get(url="users/{}".format(sys.argv[1])).json()
-    todos = requests.get(url="todos", params={"userId": sys.argv[1]}).json()
+    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
+    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
 
     completed = [m.get("title") for m in todos if m.get("completed") is True]
     print("Employee {} is done with tasks({}/{}):".format(
