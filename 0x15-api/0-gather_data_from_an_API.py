@@ -6,6 +6,9 @@ returns information about his/her TODO list progress
 import requests
 import sys
 
+def truncate_name(name):
+    return name[:18]
+
 if __name__ == '__main__':
     url = "https://jsonplaceholder.typicode.com/"
     user = requests.get(url="users/{}".format(sys.argv[1])).json()
