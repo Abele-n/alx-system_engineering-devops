@@ -25,7 +25,7 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
                             allow_redirects=False)
     try:
         results = response.json()
-        if response.status_code >= 404:
+        if response.status_code == 404:
             raise Exception
     except Exception:
         print("")
@@ -34,8 +34,8 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
     results = results.get("data")
     after = results.get("after")
     count += results.get("dist")
-    for c in results.get("children"):
-        title = c.get("data").get("title").lower().split()
+    for m in results.get("children"):
+        title = m.get("data").get("title").lower().split()
         for word in word_list:
             if word.lower() in title:
                 times = len([t for t in title if t == word.lower()])
