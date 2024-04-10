@@ -9,8 +9,6 @@ def number_of_subscribers(subreddit):
 
     returns number of subscribers to the subreddit.
     """
-    import requests
-
     subr_info = requests.get("https://www.reddit.com/r/{}/about.json"
                              .format(subreddit),
                              headers={"User-Agent": "My-User-Agent"},
