@@ -4,7 +4,9 @@
 
 def number_of_subscribers(subreddit):
     """
-    Query the Reddit API and returns number of subscribers to the subreddit.
+    Query the Reddit API.
+
+    returns number of subscribers to the subreddit.
     """
     import requests
 
@@ -13,7 +15,7 @@ def number_of_subscribers(subreddit):
                              headers={"User-Agent": "My-User-Agent"},
                              allow_redirects=False)
     if subr_info.status_code >= 300:
-        return 0, "nonexisting subreddit"
+        return 0, "nonexisting Subreddit"
 
-    return subr_info.json().get("data").get("subscribers", 0), "existing
-    subreddit"
+    result = subr_info.json().get("data").get("subscribers", 0)
+    return result, "existing Subreddit"
