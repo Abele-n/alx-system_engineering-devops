@@ -12,7 +12,8 @@ def number_of_subscribers(subreddit):
                              .format(subreddit),
                              headers={"User-Agent": "My-User-Agent"},
                              allow_redirects=False)
-    if subr_info.status_code == 404:
-        return 0
+    if subr_info.status_code >= 300:
+        return 0, "nonexisting subreddit"
 
-    return subr_info.json().get("data").get("subscribers", 0)
+    return subr_info.json().get("data").get("subscribers", 0), "existing
+    subreddit"
